@@ -1,0 +1,9 @@
+MyBatis的运行过程分为两步：
+step1：读取配置文件缓存到Configuration对象，用以创建SqlSessionFactory
+step2：SqlSession的执行过程
+
+1、构建SqlSessionFactory过程
+Mybatis是一个复杂的系统，采用了Builder模式去创建SqlSessionFactory，在实际中通过SqlSessionFactoryBuilder创建
+(1)通过org.apache.ibatis.builder.xml.XMLConfigBuilder解析配置的XML的文件，读出所配置的参数，并将读取的内容存入org.apache.ibatis.session.Configuration
+类对象中。而Configuration采用的是单例模式，几乎所有的mybatis配置内容都会存放在这个单例对象中。
+(2)使用Configuration对象去创建SqlSessionFactory。MyBatis中的SqlSessionFactory是一个接口，mybatis提供了一个默认的实现类org.apache.ibatis.session.defaults.DefaultSqlSessionFactory.
