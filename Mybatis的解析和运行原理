@@ -7,3 +7,16 @@ Mybatis是一个复杂的系统，采用了Builder模式去创建SqlSessionFacto
 (1)通过org.apache.ibatis.builder.xml.XMLConfigBuilder解析配置的XML的文件，读出所配置的参数，并将读取的内容存入org.apache.ibatis.session.Configuration
 类对象中。而Configuration采用的是单例模式，几乎所有的mybatis配置内容都会存放在这个单例对象中。
 (2)使用Configuration对象去创建SqlSessionFactory。MyBatis中的SqlSessionFactory是一个接口，mybatis提供了一个默认的实现类org.apache.ibatis.session.defaults.DefaultSqlSessionFactory.
+
+在SqlSessionFactory构建中，Configuration的作用是:
+(1)读入配置文件，包括基础配置的XML和映射器XML(或注解)
+(2)初始化一些基础配置，比如MyBatis的别名等，一些重要的类对象(比如插件、映射器、Object工厂、typeHandler对象等)
+(3)提供单例，为后续创建SessionFactory服务，提供配置的参数
+(4)执行一些重要对象的初始化方法
+
+在MyBatis中一条SQL和它相关配置信息时由3个部分组成的，他们分别是MappedStatement、SqlSource和BoundSql
+(1)MappedStatement的作用是保存一个映射器节点(select|insert|delete|update)的内容。它是一个类，还包括配置的SQL、SQL的id、缓存信息、resultMap、parameterType、
+resultType、resultMap、languageDriver等重要配置内容。
+(2)SqlSource是提供BoundSql对象的地方，是MappedStatement的一个属性。它是一个接口。重要的实现类是DynamicSqlSource、ProviderSqlSource、RawSqlSource、
+StaticSqlSource。作用是根据上下文和参数解析生成需要的SQL。该接口只定义了一个接口方法BoundSql(parameterObject)，使用它可得到一个BoundSql对象。
+(3)BoundSql是一个结果对象，是SqlSource通过对SQL和参数的联合解析得到的SQL和参数，有sql、parameterObject、parameterMappings这三个常用属性。
