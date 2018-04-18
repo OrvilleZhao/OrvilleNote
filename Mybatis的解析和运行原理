@@ -21,3 +21,7 @@ resultType、resultMap、languageDriver等重要配置内容。
 StaticSqlSource。作用是根据上下文和参数解析生成需要的SQL。该接口只定义了一个接口方法BoundSql(parameterObject)，使用它可得到一个BoundSql对象。
 (3)BoundSql是一个结果对象，是SqlSource通过对SQL和参数的联合解析得到的SQL和参数，有sql、parameterObject、parameterMappings这三个常用属性。
 
+Mapper的动态代理过程
+(1)用Configuration对象的getMapper方法获得对应的接口对象
+(2)运用映射器的注册器Mapperregistry来获取对应的接口对象
+(3)使用MapperProxyFactory工厂来生成一个代理实例
