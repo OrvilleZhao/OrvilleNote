@@ -20,3 +20,4 @@ resultType、resultMap、languageDriver等重要配置内容。
 (2)SqlSource是提供BoundSql对象的地方，是MappedStatement的一个属性。它是一个接口。重要的实现类是DynamicSqlSource、ProviderSqlSource、RawSqlSource、
 StaticSqlSource。作用是根据上下文和参数解析生成需要的SQL。该接口只定义了一个接口方法BoundSql(parameterObject)，使用它可得到一个BoundSql对象。
 (3)BoundSql是一个结果对象，是SqlSource通过对SQL和参数的联合解析得到的SQL和参数，有sql、parameterObject、parameterMappings这三个常用属性。
+
