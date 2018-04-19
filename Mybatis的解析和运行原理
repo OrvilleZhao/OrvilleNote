@@ -25,3 +25,12 @@ Mapper的动态代理过程
 (1)用Configuration对象的getMapper方法获得对应的接口对象
 (2)运用映射器的注册器Mapperregistry来获取对应的接口对象
 (3)使用MapperProxyFactory工厂来生成一个代理实例
+
+由于Mapper的XML文件的命名空间对应的是接口A的全限定名，而方法就是那条SQL的id，所以MyBatis可以根据全路径和方法名将接口A和代理对象绑定起来，并通过动态代理技术
+让这个接口运行起来，而后采用命令模式执行对应的SQL。
+
+SqlSession下的四大对象：
+(1)Executor代表执行器:由它调度StatementHandler、ParameterHandler、ResultHandler等执行对应的SQL，其中StatementHandler是最重要的
+(2)StatementHandler作用是使用数据库的Statement(PreparedStatement)执行操作，它是四大对象的核心，许多重要插件都是通过拦截它来实现的。
+(3)ParameterHandler是用来处理SQL参数的
+(4)ResultSetHandler是进行数据集(ResultSet)的封装返回处理的
