@@ -34,3 +34,4 @@ SqlSession下的四大对象：
 (2)StatementHandler作用是使用数据库的Statement(PreparedStatement)执行操作，它是四大对象的核心，许多重要插件都是通过拦截它来实现的。
 (3)ParameterHandler是用来处理SQL参数的
 (4)ResultSetHandler是进行数据集(ResultSet)的封装返回处理的
+
