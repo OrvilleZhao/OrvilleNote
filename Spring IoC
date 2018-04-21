@@ -1,0 +1,25 @@
+一、Spring IoC
+控制反转是一种通过描述并通过第三方去产生或获取特定对象的方式。Spring会提供IoC容器来管理对应的资源。
+1.1 Spring IoC容器的设计
+Spring IoC容器的设计主要是基于BeanFactory和ApplicationContext两个接口，其中ApplicationContext是BeanFactory的子接口之一
+1）getBean的多个方法用于获取配置给Spring IoC容器的Bean。
+2）isSingleton用于判断是否单例如果为真表明该Bean在容器中是作为唯一单例存在的。isPrototype则正好相反
+3）关于type的匹配是isTypeMatch,是按java类型匹配的方式
+4）getAliases方法是获取别名的方法
+
+1.2 Spring IoC容器的初始化和依赖注入
+Bean的定义分为三步：Resource定位；BeanDefinition载入；BeanDefinition注册
+
+1.3 Spring Bean的生命周期
+  (1)初始化
+  (2)依赖注入
+  (3)执行接口BeanNameAware的setBeanName方法
+  (4)执行接口BeanFactoryAware的setBeanFactory方法
+  (5)执行接口ApplicationContextAware的setApplicationContext方法
+  (6)进入BeanPostProcessor的预初始化方法postProcessBeforeInitialization
+  (7)执行接口InitializingBean的afterPropertiesSet方法
+  (8)进入自定义初始化方法
+  (9)进入BeanPostProcessor的后初始化方法postProcessAfterInitialization
+  (10)进入生存期
+  (11)执行接口DisposableBean的destroy方法
+  (12)进入自定义销毁方法
