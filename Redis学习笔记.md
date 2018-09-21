@@ -1,6 +1,7 @@
 <!-- GFM-TOC -->
 * [Redis简介](#Redis简介)
   * [Redis与其他数据库和软件的对比](#Redis与其他数据库和软件的对比)
+  * [Redis的持久化方法](#Redis的持久化方法)
 
 # Redis简介
 
@@ -14,4 +15,11 @@
 |memcached|使用内存存储的键值缓存|键值之间的映射|创建命令、读取命令、更新命令、删除命令以及其他几个命令|为提升性能而设的多线程服务器|
 |MySQL|关系数据库|每个数据库可以包含多个表,每个表可以包含多个行;可以处理多个表的视图(View);支持空间(spatial)和第三方扩展|SELECT、INSERT、UPDATE、DELETE、函数、存储过程|支持ACID性质(需要使用InnoDB),主从复制和主主复制(master/master replication)|
 |PostgreSQL|关系数据库|每个数据库可以包含多个表，每个表可以包含多个行；可以处理多个表的视图；支持空间和第三方扩展；支持可定制类型|SELECT、INSERT、UPDATE、DELETE、内置函数、自定义的存储过程|支持ACID性质、主从复制,由第三方支持的多主复制(multi-master replication)|
-|MongoDB|使用硬盘存储和非关系文档存储|每个数据库可以包含多个表,每个表可以包含多个schema(schema-less)的BSON文档|创建命令、读取命令、更新命令、删除命令、条件查询命令等|支持map-reduce操作，主从复制，分片，空间索引(spatial index)|
+|MongoDB|使用硬盘存储和非关系文档存储|每个数据库可以包含多个表,每个表可以包含多个schema(schema-less)的BSON文档|创建命令、读取命令、更新命令、删除命令、条件查询命令等|支持map-reduce操作，主从复制，分片，空间索引(spatial index)|  
+
+## Redis的持久化方法
+
+* 时间点转储
+     > 转储操作既可以在“指定时间段内有指定数量的写操作执行”这一条件被满足时执行,又可以通过调用两条转储到硬盘(dump-to-disk)命令中的任何一条来执行
+* 写入只追加文件(append-only)文件
+     > 
