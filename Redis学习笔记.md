@@ -1,8 +1,8 @@
 <!-- GFM-TOC -->
 * [Redis简介](#Redis简介)
-  * [Redis与其他数据库和软件的对比](##Redis与其他数据库和软件的对比)
-  * [Redis的持久化方法](##Redis的持久化方法)
-  * [Redis的主从复制特性](##Redis主从复制特性)
+  * [Redis与其他数据库和软件的对比](#Redis与其他数据库和软件的对比)
+  * [Redis的持久化方法](#Redis的持久化方法)
+  * [Redis的主从复制特性](#Redis主从复制特性)
 
 # Redis简介
 
