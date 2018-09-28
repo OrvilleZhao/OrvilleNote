@@ -112,4 +112,30 @@ Redis提供了五种不同的数据结构类型之间的映射，这五种数据
 >> * 整数
 >> * 浮点数
 
-> 用户可以通过给定一个任意的数值，对存储着整数或者浮点数的字符串执行自增(increment)或者自减(decrement)操作，在有需要的时候,Redis还会将整数转换成浮点数。整数的取值范围和系统的长整数(long integer)的取值范围相同(在32位系统上，整数就是32位有符号整数,在64位系统上，整数就是64位有符号整数),而浮点数的取值范围和精度则与IEEE 754标准的双精度浮点数(double)相同。Redis明确的区分字节串、整数和浮点数的做法是一种优势，比起只能够存储字节串的做法,Redis的做法在数据表现方面具有强大的灵活性。
+>用户可以通过给定一个任意的数值，对存储着整数或者浮点数的字符串执行自增(increment)或者自减(decrement)操作，在有需要的时候,Redis还会将整数转换成浮点数。整数的取值范围和系统的长整数(long integer)的取值范围相同(在32位系统上，整数就是32位有符号整数,在64位系统上，整数就是64位有符号整数),而浮点数的取值范围和精度则与IEEE 754标准的双精度浮点数(double)相同。Redis明确的区分字节串、整数和浮点数的做法是一种优势，比起只能够存储字节串的做法,Redis的做法在数据表现方面具有强大的灵活性。
+
+对Redis执行自增和自减操作的命令
+
+|命令|用例|描述|
+|:-:|:-:|:-:|
+|INCR|INCR key-name|将键存储的值加上1|
+|DECR|DECR key-name|将键存储的值减去1|
+|INCRBY|INCRBY key-name amount|将键存储的值加上整数amount|
+|DECRBY|DECRBY key-name amount|将键存储的值减去整数amount|
+|INCRBYFLOAT|INCRBYFLOAT key-name amount|将键存储的值加上浮点数amount,redis版本2.6或以上可用|
+
+当用户将一个值存储到Redis字符串中时，如果该值可以被解释成十进制或者是浮点数，那么Redis会察觉到这一点，并允许用户对这个字符串执行各种INCR和DECR操作，若对一个不存在的键或者保存了空串的键执行自增或者自减的操作，那么Redis在执行时会将该键的值当做是0来处理。如果用户尝试对一个值无法解释为整数或者浮点数的字符串键执行自增或者自减操作，那么Redis将向用户返回一个错误。
+
+供Redis处理子串和二进制位的命令
+
+|命令|用例|描述|
+|:-:|:-:|:-:|
+|APPEND|APPEND key-name value|将值value追加到给定键key-name当前存储的值得末尾|
+|GETRANGE|GETRANGE key-name start end|获取一个由偏移量start至偏移量end范围内所有字符组成的子串，包括start和end|
+|SETRANGE|SETRANGE key-name offset value|将从offset偏移量开始的子串设置为给定值|
+|GETBIT|GETBIT key-name offset|将字符串看做是二进制位串，并返回位串中偏移量为offset的二进制位的值|
+|SETBIT|SETBIT key-name offset value|将字符串看作是二进制位串，并将位串中偏移量为offset的二进制位的值设置为value|
+|BITCOUNT|BITCOUNT key-name [start end]|统计二进制位串里面值为1的二进制位的数量，如果给定了可选的start偏移量和end偏移量，那么只对偏移量指定范围内的二进制位进行统计|
+|BITOP|BITOP operation dest-key key-name [key-name ...]|对一个或多个二进制位串执行包括并(AND)、或(OR)、异或(XOR)、非(NOT)在内的任意一种按位运算操作，并将计算得到的结果保存在dest-key键里面|
+
+在使用SETBIT或者SETRANGE对字符串进行写入的时候,如果字符串长度不满足写入的要求,Redis会用空字节(null)将字符串扩展至所需的长度,然后才执行写入或者更新操作。在使用GETRANGE读取字符串的时候,超出字符串末尾的数据会被视为是空串,而在使用GETBIT读取二进制位串的时候,超出字符串末尾的二进制位会被视为是0.
