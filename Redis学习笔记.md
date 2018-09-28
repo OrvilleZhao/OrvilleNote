@@ -116,7 +116,7 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 >> * 整数
 >> * 浮点数
 
->用户可以通过给定一个任意的数值，对存储着整数或者浮点数的字符串执行自增(increment)或者自减(decrement)操作，在有需要的时候,Redis还会将整数转换成浮点数。整数的取值范围和系统的长整数(long integer)的取值范围相同(在32位系统上，整数就是32位有符号整数,在64位系统上，整数就是64位有符号整数),而浮点数的取值范围和精度则与IEEE 754标准的双精度浮点数(double)相同。Redis明确的区分字节串、整数和浮点数的做法是一种优势，比起只能够存储字节串的做法,Redis的做法在数据表现方面具有强大的灵活性。
+> 用户可以通过给定一个任意的数值，对存储着整数或者浮点数的字符串执行自增(increment)或者自减(decrement)操作，在有需要的时候,Redis还会将整数转换成浮点数。整数的取值范围和系统的长整数(long integer)的取值范围相同(在32位系统上，整数就是32位有符号整数,在64位系统上，整数就是64位有符号整数),而浮点数的取值范围和精度则与IEEE 754标准的双精度浮点数(double)相同。Redis明确的区分字节串、整数和浮点数的做法是一种优势，比起只能够存储字节串的做法,Redis的做法在数据表现方面具有强大的灵活性。
 
 对Redis执行自增和自减操作的命令
 
@@ -128,7 +128,7 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 |DECRBY|DECRBY key-name amount|将键存储的值减去整数amount|
 |INCRBYFLOAT|INCRBYFLOAT key-name amount|将键存储的值加上浮点数amount,redis版本2.6或以上可用|
 
-当用户将一个值存储到Redis字符串中时，如果该值可以被解释成十进制或者是浮点数，那么Redis会察觉到这一点，并允许用户对这个字符串执行各种INCR和DECR操作，若对一个不存在的键或者保存了空串的键执行自增或者自减的操作，那么Redis在执行时会将该键的值当做是0来处理。如果用户尝试对一个值无法解释为整数或者浮点数的字符串键执行自增或者自减操作，那么Redis将向用户返回一个错误。
+> 当用户将一个值存储到Redis字符串中时，如果该值可以被解释成十进制或者是浮点数，那么Redis会察觉到这一点，并允许用户对这个字符串执行各种INCR和DECR操作，若对一个不存在的键或者保存了空串的键执行自增或者自减的操作，那么Redis在执行时会将该键的值当做是0来处理。如果用户尝试对一个值无法解释为整数或者浮点数的字符串键执行自增或者自减操作，那么Redis将向用户返回一个错误。
 
 供Redis处理子串和二进制位的命令
 
@@ -183,3 +183,14 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 |SRANDMEMBER|SRANDMEMBER key-name [count]|从集合中随机的返回一个或多个元素。当count为正数时，命令返回的随机元素不会重复；当count为负数时，命令返回的随机元素可能会出现重复|
 |SPOP|SPOP key-name|随机地移除集合中的一个元素，并返回被移除的元素|
 |SMOVE|SMOVE source-key dest-key item|如果集合source-key包含元素item，那么从集合source-key里面移除元素item，并将元素item添加到集合dest-key中；如果item被成功移除，那么命令返回1，否则返回0|
+
+> 用于组合和处理多个集合的Redis命令
+
+|命令|用例|描述|
+|:-:|:-:|:-:|
+|SDIFF|SDIFF key-name [key-name ...]|返回存在于第一个集合、但不存在于其他集合中的元素(数学上的差集运算)|
+|SDIFFSTORE|SDIFFSTORE dest-key dest-name [key-name ...]|将存在于第一个集合但并不存在于其他集合中的元素存储到dest-key键里面|
+|SINTER|SINTER key-name [key-name ...]|返回那些同时存在于所有集合中的元素(数学上的交集运算)|
+|SINTERSTORE|SINTERSTORE dest-key key-name [key-name ...]|将那些同时存在于所有集合中的元素存储到dest-key键里面|
+|SUNION|SUNION key-name [key-name ...]|返回那些至少存在于一个集合中的元素(数学上的并集计算)|
+|SUNIONSTORE|SUNIONSTORE dest-key key-name [key-name ...]|将那些至少存在于一个集合中的元素存储到dest-key键里面|
