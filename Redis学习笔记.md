@@ -141,4 +141,17 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 在使用SETBIT或者SETRANGE对字符串进行写入的时候,如果字符串长度不满足写入的要求,Redis会用空字节(null)将字符串扩展至所需的长度,然后才执行写入或者更新操作。在使用GETRANGE读取字符串的时候,超出字符串末尾的数据会被视为是空串,而在使用GETBIT读取二进制位串的时候,超出字符串末尾的二进制位会被视为是0.
 
 ## 列表
-Redis列表允许
+
+> Redis列表允许用户从序列的两端推入或者弹出元素,获取列表元素,以及执行各种常见的列表操作。
+
+> 一些常用的列表命令
+
+|命令|用例|描述|
+|:-:|:-:|:-:|
+|RPUSH|RPUSH key-name value [value ...]|将一个或多个值推入列表的右端|
+|LPUSH|LPUSH key-name value [value ...]|将一个或多个值推入列表的左端|
+|RPOP|RPOP key-name|移除并返回列表最右端的元素|
+|LPOP|LPOP key-name|移除并返回列表最左端的元素|
+|LINDEX|LINDEX key-name offset|返回列表中偏移量为offset的元素|
+|LRANGE|LRANGE key-name start end|返回列表从start偏移量到end偏移量范围内的所有元素,其中偏移量为start和偏移量为end的元素也会包含在被返回的元素之内|
+|LTRIM|LTRIM key-name end|对列表进行修剪,只保留从start偏移量到end偏移量范围内的元素,其中偏移量为start和偏移量为end的元素也会被保留|
