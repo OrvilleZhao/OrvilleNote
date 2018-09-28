@@ -8,6 +8,10 @@
     * [Redis中的集合](#Redis中的集合)
     * [Redis中的散列](#Redis中的散列)
     * [Redis的有序集合](#Redis的有序集合)
+* [Redis命令](#Redis命令)
+  * [字符串](#字符串)
+  * [列表](#列表)
+  * [集合](#集合)
 <!-- GFM-TOC -->
 
 # Redis简介
@@ -148,10 +152,33 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 
 |命令|用例|描述|
 |:-:|:-:|:-:|
-|RPUSH|RPUSH key-name value [value ...]|将一个或多个值推入列表的右端|
-|LPUSH|LPUSH key-name value [value ...]|将一个或多个值推入列表的左端|
+|RPUSH|RPUSH key-name value [value ...]|将一个或多个值推入列表的右端,并返回列表当前的长度|
+|LPUSH|LPUSH key-name value [value ...]|将一个或多个值推入列表的左端,并返回列表当前的长度|
 |RPOP|RPOP key-name|移除并返回列表最右端的元素|
 |LPOP|LPOP key-name|移除并返回列表最左端的元素|
 |LINDEX|LINDEX key-name offset|返回列表中偏移量为offset的元素|
 |LRANGE|LRANGE key-name start end|返回列表从start偏移量到end偏移量范围内的所有元素,其中偏移量为start和偏移量为end的元素也会包含在被返回的元素之内|
 |LTRIM|LTRIM key-name end|对列表进行修剪,只保留从start偏移量到end偏移量范围内的元素,其中偏移量为start和偏移量为end的元素也会被保留|
+|RPOPLPUSH|RPOPLPUSH source-key dest-key|从source-key列表中弹出位于最右端的元素,然后将这个元素推入dest-key列表的最左端,并向用户返回这个元素|
+
+> 阻塞式的列表弹出命令以及在列表之间移动元素的命令
+
+|命令|用例|描述|
+|BLPOP|BLPOP key-name [key-name ...] timeout|从第一个非空列表中弹出位于最左端的元素,或者在timeout秒之内阻塞并等待可弹出的元素出现|
+|BRPOP|BRPOP key-name [key-name ...] timeout|从第一个非空列表中弹出位于最右端的元素,或者在timeout秒之内阻塞并等待可弹出的元素出现|
+|BRPOPLPUSH|BRPOPLPUSH source-key dest-key timeout|从source-key列表中弹出位于最右端的元素,然后将这个元素推入dest-key列表的最左端,并向用户返回这个元素；如果source-key为空，那么timeout秒之内阻塞并等待可弹出的元素出现|
+
+## 集合
+
+> 一些常用的集合命令
+
+|命令|用例|描述|
+|:-:|:-:|:-:|
+|SADD|SADD key-name item [item ...]|将一个或多个元素添加到集合里面,并返回被添加元素当中原本并不存在于集合里面的元素数量|
+|SREM|SREM key-name item [item ...]|从集合里面移除一个或者多个元素，并返回被移除元素的数量|
+|SISMEMBER|SISMEMBER key-name item|检查元素item是否存在于集合key-name里|
+|SCARD|SCARD key-name|返回集合包含的元素的数量|
+|SMEMBERS|SMEMBERS key-name|返回集合包含的所有元素|
+|SRANDMEMBER|SRANDMEMBER key-name [count]|从集合中随机的返回一个或多个元素。当count为正数时，命令返回的随机元素不会重复；当count为负数时，命令返回的随机元素可能会出现重复|
+|SPOP|SPOP key-name|随机地移除集合中的一个元素，并返回被移除的元素|
+|SMOVE|SMOVE source-key dest-key item|如果集合source-key包含元素item，那么从集合source-key里面移除元素item，并将元素item添加到集合dest-key中；如果item被成功移除，那么命令返回1，否则返回0|
