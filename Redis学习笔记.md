@@ -164,6 +164,7 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 > 阻塞式的列表弹出命令以及在列表之间移动元素的命令
 
 |命令|用例|描述|
+|:-:|:-:|:-:|
 |BLPOP|BLPOP key-name [key-name ...] timeout|从第一个非空列表中弹出位于最左端的元素,或者在timeout秒之内阻塞并等待可弹出的元素出现|
 |BRPOP|BRPOP key-name [key-name ...] timeout|从第一个非空列表中弹出位于最右端的元素,或者在timeout秒之内阻塞并等待可弹出的元素出现|
 |BRPOPLPUSH|BRPOPLPUSH source-key dest-key timeout|从source-key列表中弹出位于最右端的元素,然后将这个元素推入dest-key列表的最左端,并向用户返回这个元素；如果source-key为空，那么timeout秒之内阻塞并等待可弹出的元素出现|
