@@ -13,6 +13,7 @@
   * [列表](#列表)
   * [集合](#集合)
   * [散列](#散列)
+  * [有序集合](#有序集合)
 <!-- GFM-TOC -->
 
 # Redis简介
@@ -22,7 +23,7 @@
 ## Redis与其他数据库和软件的对比
 
 |名称|类型|数据存储选项|查询类型|附加功能|
-|:-:|:-:|:-:|:-:|:-:|
+|:-|:-|:-|:-|:-|
 |Redis|使用内存存储的非关系数据库|字符串、列表、集合、散列表、有序集合|每种数据类型都自己的专属命令，另外还有批量操作(bulk operation)和不完全(partial)的事务支持|发布与订阅，主从复制(master/slave replication),持久化，脚本(存储过程,stored procedure)|
 |memcached|使用内存存储的键值缓存|键值之间的映射|创建命令、读取命令、更新命令、删除命令以及其他几个命令|为提升性能而设的多线程服务器|
 |MySQL|关系数据库|每个数据库可以包含多个表,每个表可以包含多个行;可以处理多个表的视图(View);支持空间(spatial)和第三方扩展|SELECT、INSERT、UPDATE、DELETE、函数、存储过程|支持ACID性质(需要使用InnoDB),主从复制和主主复制(master/master replication)|
@@ -45,7 +46,7 @@
 Redis提供了五种不同的数据结构类型之间的映射，这五种数据结构类型分别为STRING(字符串)、LIST(列表)、SET(集合)、HASH(散列)和ZSET(有序集合)。有一部分Redis命令对这5种结构都是通用的，如DEL、TYPE、RENAME等;但也有一部分Redis命令只能对特定的一种或者两种结构使用。
 
 |结构类型|结构存储的值|结构的读写能力|
-|:-:|:-:|:-:|
+|:-|:-|:-|
 |STRING|可以是字符串、整数或者浮点数|对整个字符串或者字符串的其中一部分执行操作;对整数和浮点数执行自增(increment)或者自减(decrement)操作|
 |LIST|一个链表,链表上的每个节点都包含了一个字符串|从链表的两端推入或者弹出元素;根据偏移量对链表进行修剪(trim);读取单个或者多个元素;根据值查找或者移除元素|
 |SET|包含字符串的无序收集器(unordered collection),并且被包含的每个字符串都是独一无二、各不相同的|添加、获取、移除单个元素;检查一个元素是否存在于集合中;计算交集、并集、差集;从集合里面随机获取元素|
@@ -57,7 +58,7 @@ Redis提供了五种不同的数据结构类型之间的映射，这五种数据
 >常用字符串命令
 
 |命令|行为|
-|:-:|:-:|
+|:-|:-|
 |GET|获取存储在给定键中的值|
 |SET|设置存储在给定键中的值|
 |DEL|删除存储在给定键中的值(该命令可以用于所有类型)|
@@ -67,7 +68,7 @@ Redis提供了五种不同的数据结构类型之间的映射，这五种数据
 >常用列表命令
 
 |命令|行为|
-|:-:|:-:|
+|:-|:-|
 |RPUSH|将给定值推入列表的右端|
 |LPUSH|将给定值推入列表的左端|
 |LPOP|从列表的左侧弹出一个值,并返回被弹出的值|
@@ -80,7 +81,7 @@ Redis提供了五种不同的数据结构类型之间的映射，这五种数据
 >常用集合命令
 
 |命令|行为|
-|:-:|:-:|
+|:-|:-|
 |SADD|将给定元素添加到集合|
 |SMEMBERS|返回集合包含的所有元素|
 |SISMEMBER|检查给定元素是否存在于集合中|
@@ -91,7 +92,7 @@ Redis提供了五种不同的数据结构类型之间的映射，这五种数据
 >常用散列命令
 
 |命令|行为|
-|:-:|:-:|
+|:-|:-|
 |HSET|在散列里面关联起给定的键值对|
 |HGET|获取指定散列键的值|
 |HGETALL|获取散列包含的所有键值对|
@@ -102,7 +103,7 @@ Redis提供了五种不同的数据结构类型之间的映射，这五种数据
 >常用有序集合命令
 
 |命令|行为|
-|:-:|:-:|
+|:-|:-|
 |ZADD|将一个带有给定分值的成员添加到有序集合里面|
 |ZRANGE|根据元素在有序排列中所处的位置,从有序集合里面获取多个元素|
 |ZRANGEBYSCORE|获取有序集合在给定分值范围内的所有元素|
@@ -122,7 +123,7 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 对Redis执行自增和自减操作的命令
 
 |命令|用例|描述|
-|:-:|:-:|:-:|
+|:-|:-|:-|
 |INCR|INCR key-name|将键存储的值加上1|
 |DECR|DECR key-name|将键存储的值减去1|
 |INCRBY|INCRBY key-name amount|将键存储的值加上整数amount|
@@ -134,7 +135,7 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 供Redis处理子串和二进制位的命令
 
 |命令|用例|描述|
-|:-:|:-:|:-:|
+|:-|:-|:-|
 |APPEND|APPEND key-name value|将值value追加到给定键key-name当前存储的值得末尾|
 |GETRANGE|GETRANGE key-name start end|获取一个由偏移量start至偏移量end范围内所有字符组成的子串，包括start和end|
 |SETRANGE|SETRANGE key-name offset value|将从offset偏移量开始的子串设置为给定值|
@@ -152,7 +153,7 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 > 一些常用的列表命令
 
 |命令|用例|描述|
-|:-:|:-:|:-:|
+|:-|:-|:-|
 |RPUSH|RPUSH key-name value [value ...]|将一个或多个值推入列表的右端,并返回列表当前的长度|
 |LPUSH|LPUSH key-name value [value ...]|将一个或多个值推入列表的左端,并返回列表当前的长度|
 |RPOP|RPOP key-name|移除并返回列表最右端的元素|
@@ -165,7 +166,7 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 > 阻塞式的列表弹出命令以及在列表之间移动元素的命令
 
 |命令|用例|描述|
-|:-:|:-:|:-:|
+|:-|:-|:-|
 |BLPOP|BLPOP key-name [key-name ...] timeout|从第一个非空列表中弹出位于最左端的元素,或者在timeout秒之内阻塞并等待可弹出的元素出现|
 |BRPOP|BRPOP key-name [key-name ...] timeout|从第一个非空列表中弹出位于最右端的元素,或者在timeout秒之内阻塞并等待可弹出的元素出现|
 |BRPOPLPUSH|BRPOPLPUSH source-key dest-key timeout|从source-key列表中弹出位于最右端的元素,然后将这个元素推入dest-key列表的最左端,并向用户返回这个元素；如果source-key为空，那么timeout秒之内阻塞并等待可弹出的元素出现|
@@ -175,7 +176,7 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 > 一些常用的集合命令
 
 |命令|用例|描述|
-|:-:|:-:|:-:|
+|:-|:-|:-|
 |SADD|SADD key-name item [item ...]|将一个或多个元素添加到集合里面,并返回被添加元素当中原本并不存在于集合里面的元素数量|
 |SREM|SREM key-name item [item ...]|从集合里面移除一个或者多个元素，并返回被移除元素的数量|
 |SISMEMBER|SISMEMBER key-name item|检查元素item是否存在于集合key-name里|
@@ -188,7 +189,7 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 > 用于组合和处理多个集合的Redis命令
 
 |命令|用例|描述|
-|:-:|:-:|:-:|
+|:-|:-|:-|
 |SDIFF|SDIFF key-name [key-name ...]|返回存在于第一个集合、但不存在于其他集合中的元素(数学上的差集运算)|
 |SDIFFSTORE|SDIFFSTORE dest-key dest-name [key-name ...]|将存在于第一个集合但并不存在于其他集合中的元素存储到dest-key键里面|
 |SINTER|SINTER key-name [key-name ...]|返回那些同时存在于所有集合中的元素(数学上的交集运算)|
@@ -201,7 +202,7 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 > 用于添加和删除键值对的散列操作
 
 |命令|用例|描述|
-|:-:|:-:|:-:|
+|:-|:-|:-|
 |HMGET|HMGET key-name key [key ...]|从散列里面获取一个或多个键的值|
 |HMSET|HMSET key-name key value [key value ...]|为散列里面的一个或多个键设置值|
 |HDEL|HDEL key-name key [key ...]|删除散列里面的一个或多个键值对,返回成功找到并删除的键值对数量|
@@ -210,10 +211,41 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 > 展示Redis散列的更高级特性
 
 |命令|用例|描述|
-|:-:|:-:|:-:|
+|:-|:-|:-|
 |HEXISTS|HEXISTS key-name key|检查给定键是否存在于散列中|
 |HKEYS|HKEYS key-name|获取散列包含的所有键|
 |HVALS|HVALS key-name|获取散列包含的所有值|
 |HGETALL|HGETALL key-name|获取散列包含的所有键值对|
 |HINCRBY|HINCRBY key-name key increment|将键key存储的值加上整数increment|
 |HINCRBYFLOAT|HINCRBYFLOAT key-name key increment|将键key存储的值加上浮点数increment|
+
+## 有序集合
+
+> 一些常用的有序集合命令
+
+|命令|用例|描述|
+|:-|:-|:-|
+|ZADD|ZADD key-name score member [score member ...]|将带有给定分值的成员添加到有序集合里面|
+|ZREM|ZREM key-name member [member ...]|从有序集合里面移除给定的成员,并返回被移除成员的数量|
+|ZCARD|ZCARD key-name|返回有序集合包含的成员数量|
+|ZINCRBY|ZINCRBY key-name increment member|将member成员的分值加上increment|
+|ZCOUNT|ZCOUNT key-name min max|返回分值介于min和max之间的成员数量|
+|ZRANK|ZRANK key-name member|返回成员member在有序集合中的排名|
+|ZSCORE|ZSCORE key-name member|返回成员member的分值|
+|ZRANGE|ZRANGE key-name start stop [WITHSCORES]|返回有序集合中排名介于start和stop之间的成员,如果给定了可选的WITHSCORES选项,那么命令会将成员的分值也一并返回|
+
+> 有序集合的范围型数据获取命令和范围型数据删除命令，以及并集命令和交集命令
+
+|命令|用例|描述|
+|:-|:-|:-|
+|ZREVRANK|ZREVRANK key-name member|返回有序集合里成员member的排名,成员按照分值从大到小排列|
+|ZREVRANGE|ZREVRANGE key-name start stop [WITHSCORES]|返回有序集合给定排名范围内的成员，成员按照分值从大到小排列|
+|ZRANGEBYSCORE|ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]|返回有序集合中,分值介于min和max之间的所有成员|
+|ZREMRANGEBYRANK|ZREMRANGEBYRANK key-name start stop|移除有序集合中排名介于start和stop之间的所有成员|
+|ZREMRANGEBYSCORE|ZREMRANGEBYSCORE key-name min max|移除有序集合中分值介于min和max之间的所有成员|
+|ZINTERSTORE|ZINTERSTORE dest-key key-count key [key ...][WEIGHTS weight [weight ...]][AGGREGATE SUM/MIN/MAX]|对给定的有序集合执行类似于集合交集运算|
+|ZUNIONSTORE|ZUNIONSTORE dest-key key-count key [key ...][WEIGHTS weight [weight ...]][AGGREGATE SUM/MIN/MAX]|对给定的有序集合执行类似于集合并集运算|
+
+> * WEIGHTS：使用使用 WEIGHTS 选项，你可以为 每个 给定有序集 分别 指定一个乘法因子(multiplication factor)，每个给定有序集的所有成员的 score 值在传递给聚合函数(aggregation function)之前都要先乘以该有序集的因子
+> * AGGREGATE：使用 AGGREGATE 选项，你可以指定并集的结果集的聚合方式。默认使用的参数 SUM ，可以将所有集合中某个成员的 score 值之 和 作为结果集中该成员的 score 值；使用参数 MIN ，可以将所有集合中某个成员的 最小 score 值作为结果集中该成员的 score 值；而参数 MAX 则是将所有集合中某个成员的 最大 score 值作为结果集中该成员的 score 值。
+
