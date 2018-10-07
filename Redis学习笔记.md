@@ -14,6 +14,7 @@
   * [集合](#集合)
   * [散列](#散列)
   * [有序集合](#有序集合)
+  * [发布与订阅](#发布与订阅)
 <!-- GFM-TOC -->
 
 # Redis简介
@@ -249,3 +250,14 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 > * WEIGHTS：使用使用 WEIGHTS 选项，你可以为 每个 给定有序集 分别 指定一个乘法因子(multiplication factor)，每个给定有序集的所有成员的 score 值在传递给聚合函数(aggregation function)之前都要先乘以该有序集的因子
 > * AGGREGATE：使用 AGGREGATE 选项，你可以指定并集的结果集的聚合方式。默认使用的参数 SUM ，可以将所有集合中某个成员的 score 值之 和 作为结果集中该成员的 score 值；使用参数 MIN ，可以将所有集合中某个成员的 最小 score 值作为结果集中该成员的 score 值；而参数 MAX 则是将所有集合中某个成员的 最大 score 值作为结果集中该成员的 score 值。
 
+## 发布与订阅     
+
+> Redis提供了5个发布和订阅命令
+
+|命令|用例|描述|
+|:-|:-|:-|
+|SUBSCRIBE|SUBSCRIBE channel [channel ...]|订阅给定的一个或多个频道|
+|UNSUBSCRIBE|UNSUBSCRIBE [channel [channel ...]]|退订给定的一个或多个频道,如果执行时没有给定任何频道,那么退订所有频道|
+|PUBLISH|PUBLISH channel message|给定频道发送消息|
+|PSUBSCRIBE|PSUBSCRIBE pattern [pattern ...]|订阅与给定模式相匹配的所有频道|
+|PUNSUBSCRIBE|PUNSUBSCRIBE [pattern [pattern ...]]|退订给定的模式,如果执行时没有给定任何模式,那么退订所有模式|
