@@ -261,3 +261,6 @@ Redis的字符串就是一个由字节组成的序列,在Redis里面,字符串�
 |PUBLISH|PUBLISH channel message|给定频道发送消息|
 |PSUBSCRIBE|PSUBSCRIBE pattern [pattern ...]|订阅与给定模式相匹配的所有频道|
 |PUNSUBSCRIBE|PUNSUBSCRIBE [pattern [pattern ...]]|退订给定的模式,如果执行时没有给定任何模式,那么退订所有模式|
+
+> 对于旧版Redis来说,如果一个客户端订阅了某个或某些频道,但是它读取消息的速度不够快的话,那么不断积压的消息就会使得Redis输出缓冲区的体积变得越来越大,这可能会导致Redis的速度变慢,甚至直接崩溃。也可能会导致Redis被操作系统强制杀死,甚至导致操作系统本身不可用。新版的Redis不会出现这种问题,因为它会自动断开不符合client-output-buffer-limit pubsub配置选项要求的订阅客户端
+> 任何网络系统在执行操作时都可能会遇上断线情况,而断线产生的连接错误通常会使网络连接两端中的其中一端进行重新连接。但是如果客户端在执行订阅操作的过程中断线,那么客户端将丢失在断线期间发送的所有消息,因此依靠频道来接收消息的用户可能会对Redis提供的PUBLISH命令和SUBSCRIBE命令的语义感到失望。
