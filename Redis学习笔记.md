@@ -290,10 +290,13 @@ Redis的基本事务需要用到MULTI命令和EXEC命令,这种事务可以让�
 在使用Redis存储数据的时候,有些数据可能在某个时间点之后就不再有用了,用户可以使用DEL命令显示地删除这些无用的数据,也可以通过Redis的过期时间特性来让一个键在给定的时限之后自动被删除。在常用的命令中,只有少数的几个命令可以原子的为键设置过期时间,并且对于列表、集合、散列和有序集合这样的容器来说,键过期命令只能为整个键设置过期时间,而没办法为键里面的单个元素设置过期时间。
 
 > 用于处理过期时间的Redis命令
+
 |命令|示例|描述|
+|:-|:-|:-|
 |PERSIST|PERSIST key-name|移除键的过期时间|
 |TTL|TTL key-name|查看给定键距离过期还有多少秒|
 |EXPIRE|EXPIRE key-name|让给定键在指定的秒数之后过期|
 |EXPIREAT|EXPIREAT key-name timestamp|将给定键的过期时间设置为给定的UNIX时间戳|
 |PTTL|PTTL key-name|查看给定键距离过期时间还有多少毫秒,在Redis2.6或以上版本可用|
 |PEXPIRE|PEXPIRE key-name milliseconds|让给定键在指定的毫秒之后过期,在Redis2.6或以上版本可用|
+|PEXPIREAT|PEXPIREAT key-name timestamp-milliseconds|将一个毫秒级精度的UNIX时间戳设置为给定键的过期时间,这个命令在Redis2.6或以上版本可用|
