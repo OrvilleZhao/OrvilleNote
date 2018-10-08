@@ -1,4 +1,5 @@
 <!-- GFM-TOC -->
+* [目录](#目录)
 * [Redis简介](#Redis简介)
   * [Redis与其他数据库和软件的对比](#Redis与其他数据库和软件的对比)
   * [Redis的持久化方法](#Redis的持久化方法)
@@ -7,8 +8,7 @@
     * [Redis中的列表](#Redis中的列表)
     * [Redis中的集合](#Redis中的集合)
     * [Redis中的散列](#Redis中的散列)
-    * [Redis的有序集合](#Redis的有序集合)
-    
+    * [Redis的有序集合](#Redis的有序集合)  
 * [Redis命令](#Redis命令)
   * [字符串](#字符串)
   * [列表](#列表)
