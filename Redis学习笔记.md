@@ -279,3 +279,21 @@ Redis的排序操作和其他编程语言和排序操作一样，都可以根据
 |命令|用例|描述|
 |:-|:-|:-|
 |SORT|SORT source-key [BY pattern] [LIMIT offset count] [GET pattern [GET pattern ...]] [ASC/DESC] [ALPHA] [STORE dest-key]|根据给定的选项,对输入列表、集合或者有序集合进行排序,然后返回或者存储排序的结果|
+
+### 基本的Redis事务
+
+Redis的基本事务需要用到MULTI命令和EXEC命令,这种事务可以让一个客户端在不被其他客户端打断的情况下执行多个命令。和关系数据库那种可以在执行的过程中进行回滚的事务不同,在Redis里面,被MULTI命令和EXEC命令包围的所有命令会一个接一个地执行,直到所有命令都执行完毕为止。当一个事务执行完毕之后,Redis才会处理其他客户端的命令。
+要在Redis中执行事务,我们首先需要执行MULTI命令,然后输入那些我们想要在事务,然后再执行EXEC命令。当Redis从一个客户端那里接收到MULTI命令时,Redis会将这个客户端之后发送的所有命令都放入到一个队列里面,直到这个客户端发送EXEC命令为止,然后Redis就会在不被打断的情况下,一个接一个地执行存储在队列里面的命令。 
+
+### 键的过期时间
+
+在使用Redis存储数据的时候,有些数据可能在某个时间点之后就不再有用了,用户可以使用DEL命令显示地删除这些无用的数据,也可以通过Redis的过期时间特性来让一个键在给定的时限之后自动被删除。在常用的命令中,只有少数的几个命令可以原子的为键设置过期时间,并且对于列表、集合、散列和有序集合这样的容器来说,键过期命令只能为整个键设置过期时间,而没办法为键里面的单个元素设置过期时间。
+
+> 用于处理过期时间的Redis命令
+|命令|示例|描述|
+|PERSIST|PERSIST key-name|移除键的过期时间|
+|TTL|TTL key-name|查看给定键距离过期还有多少秒|
+|EXPIRE|EXPIRE key-name|让给定键在指定的秒数之后过期|
+|EXPIREAT|EXPIREAT key-name timestamp|将给定键的过期时间设置为给定的UNIX时间戳|
+|PTTL|PTTL key-name|查看给定键距离过期时间还有多少毫秒,在Redis2.6或以上版本可用|
+|PEXPIRE|PEXPIRE key-name milliseconds|让给定键在指定的毫秒之后过期,在Redis2.6或以上版本可用|
