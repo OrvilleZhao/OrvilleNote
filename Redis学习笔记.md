@@ -303,3 +303,9 @@ Redis的基本事务需要用到MULTI命令和EXEC命令,这种事务可以让�
 |PTTL|PTTL key-name|查看给定键距离过期时间还有多少毫秒,在Redis2.6或以上版本可用|
 |PEXPIRE|PEXPIRE key-name milliseconds|让给定键在指定的毫秒之后过期,在Redis2.6或以上版本可用|
 |PEXPIREAT|PEXPIREAT key-name timestamp-milliseconds|将一个毫秒级精度的UNIX时间戳设置为给定键的过期时间,这个命令在Redis2.6或以上版本可用|
+
+# 数据安全与性能保障
+## 持久化选项
+Redis提供了两种不同的持久化方法来将数据存储到硬盘中,一种方法叫快照(snapshotting),它可以将存在于某一时刻的所有数据都写入硬盘当中。另一种方法叫只追加文件(append-only file,AOF),它会在执行的写命令时,将被执行的写命令复制到硬盘里面。这两种持久化方法既可以同时使用,又可以单独使用,在某些情况下甚至可以两种方法都不使用
+
+### 快照持久化
